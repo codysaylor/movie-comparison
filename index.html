@@ -1,0 +1,177 @@
+<!--
+TODO (- not done, + done)
++ Consistent paddings around movie/titles
++ More shadow on text
++ Turn off inflation on subsequent searches
++ remove dollar sign if NaN
++ Attribution: Logo, "This product uses the TMDb API but is not endorsed or certified by TMDb"
+- Suggested comparisons (url for each movie)
+- Change color/graph of runtime
+
+FTP
+url: viscomjs.com
+user: students
+pass:V!sc0mj$
+-->
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8">
+	<title>Movie Comparison</title>
+	<link rel="shortcut icon" type="image/png" href="http://i.imgur.com/EXolDlI.png"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,400italic,300italic,500italic" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="topContainer">
+			<header class="wrapperHeader">
+				<h2><a href="/">Movie Comparison</a></h2>
+				<!--<div class="attribution">Melissa Wrensch & Cody Saylor</div>-->
+			</header>
+			<div class="movies">
+				<div class="movie1 wrapper">
+					<div class="containLeft">
+						<div class="search">
+							<button class="submit1"><i class="fa fa-search fa-2x"></i></button>
+							<div style="overflow: hidden;">
+								<input type="text" id="search1" name="search1" placeholder="Movie 1" autocomplete="off"/>
+							</div>
+							<div class="resultsWrapper"><ul id="results1"></ul></div>
+						</div>
+						<div class="cta1">Please select another movie to compare <span class="cta1Title"></span> against.</div>
+						<div class="hidden">
+							<div class="right half">
+								<h2 class="title truncate" id="title1"></h2>
+							</div>
+							<figure class="left poster">
+								<img id="poster1" class="hidden1" src=""></img>
+								<figcaption class="hidden1"><a class="trailer1" href="#"><i class="fa fa-play"></i>&nbsp; Trailer</a></figcaption>
+							</figure>
+							<div class="clearfix"></div>
+							<div class="right">
+								<div class="stars stars1"></div>
+								<div class="rating1"></div>
+							</div>
+							<div class="clearfix"></div>
+							<div class="left info">
+								<div class="released1"></div>
+								<div class="genre1"></div>
+							</div>
+						</div>
+					</div> <!-- end div.containLeft -->
+				</div> <!-- end div.movie1 -->
+				<div class="movie2 wrapper">
+					<div class="containRight">
+						<div class="search">
+							<button class="submit2"><i class="fa fa-search fa-2x"></i></button>
+							<div style="overflow: hidden;">
+								<input type="text" id="search2" name="search2" placeholder="Movie 2" autocomplete="off"/>
+							</div>
+							<div class="resultsWrapper"><ul id="results2"></ul></div>
+						</div>
+						<div class="cta2">Please select another movie to compare <span class="cta2Title"></span> against.</div>
+						<div class="hidden">
+							<div class="left half">
+								<h2 class="title truncate" id="title2"></h2>
+							</div>
+							<figure class="right half poster">
+								<img id="poster2" class="hidden2" src=""></img>
+								<figcaption class="hidden2"><a class="trailer2" href="#"><i class="fa fa-play"></i>&nbsp; Trailer</a></figcaption>
+							</figure>
+							<div class="clearfix"></div>
+							<div class="stars stars2"></div>
+							<div class="rating2"></div>
+							<div class="clearfix"></div>
+							<div class="left info">
+								<div class="released2"></div>
+								<div class="genre2"></div>
+							</div>
+						</div>
+					</div> <!-- end div.containRight -->
+				</div> <!--end div.movie2 -->
+			</div> <!--.movies-->
+		</div>
+		
+		<div class="popular"><div class="compareOverlay">
+			<div class="instructions">Search for two movies to compare</div>
+			<div class="comparedata containGraphs">
+				<div class="wrapper">
+					<div id="runtime">
+						<h3>Runtime</h3>
+						<div class="graph1 graph-runtime1"><span class="one" id="runtime1">0 Minutes</span></div>
+						<div class="graph2 graph-runtime2"><span class="two" id="runtime2">0 Minutes</span></div>
+					</div>
+					
+					<div id="budget">
+						<h3>Budget</h3>
+						<div class="graph1 graph-budget1"><span class="one" id="budget1">0 Million</span><span class="one" id="n_budget1"></span></div>
+						<div class="graph2 graph-budget2"><span class="two" id="budget2">0 Million</span><span class="two" id="n_budget2"></span></div>
+						
+					</div>
+					
+					<div id="profits">
+						<h3>Profits</h3>
+						<div class="graph1 graph-revenue1"><span class="one" id="revenue1">0 Million</span><span class="one" id="n_revenue1"></span></div>
+						<div class="graph2 graph-revenue2"><span class="two" id="revenue2">0 Million</span><span class="two" id="n_revenue2"></span></div>
+						<div class="switch">
+							<h4>Inflation</h4>
+							<input onClick="Click_Button2();" id="inflation" class="budget_button inflation_checkbox turnOFF" type="checkbox"></input>
+							<label for="inflation" class="inflation_label"></label>
+						</div>
+					</div>
+					
+					</div>
+			
+					<div class="footer">
+						<p>Made by <a href="http://codysaylor.com" target="_blank">Cody Saylor</a> and <a href="http://melissawrensch.com" target="_blank">Melissa Wrensch</a><br>
+						<img class="attribution-img" src="https://assets.tmdb.org/images/logos/var_1_0_PoweredByTMDB_Blk_Antitled.png">This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
+					</div>
+			</div> <!--end div.comparedata-->
+
+		</div></div>
+		<!--<div class="comparedata wrapper containGraphs">-->
+		<!--	<div id="runtime">-->
+		<!--		<h3>Runtime</h3>-->
+		<!--		<div class="graph1 graph-runtime1"><span class="one" id="runtime1">0 Minutes</span></div>-->
+		<!--		<div class="graph2 graph-runtime2"><span class="two" id="runtime2">0 Minutes</span></div>-->
+		<!--	</div>-->
+			
+		<!--	<div id="budget">-->
+		<!--		<h3>Budget</h3>-->
+		<!--		<div class="graph1 graph-budget1"><span class="one" id="budget1">0 Million</span></div>-->
+		<!--		<div class="graph2 graph-budget2"><span class="two" id="budget2">0 Million</span></div>-->
+		<!--		<button onClick="Click_Button1()" class="budget_button" type="button"></button>-->
+				
+		<!--	</div>-->
+			
+		<!--	<div id="profits">-->
+		<!--		<h3>Profits</h3>-->
+		<!--		<div class="graph1 graph-revenue1"><span class="one" id="revenue1">0 Million</span></div>-->
+		<!--		<div class="graph2 graph-revenue2"><span class="two" id="revenue2">0 Million</span></div>-->
+		<!--		<button onClick="Click_Button2()" class="budget_button" type="button"></button>-->
+		<!--	</div>-->
+		<!--</div>--> <!--end div.comparedata-->
+		
+		<!--<div class="footer">-->
+		<!--	<p>Data Collected from <a href="themoviedb.org">themoviedb.org</a></p>-->
+		<!--</div>--> <!-- end div.footer -->
+		
+		<div class="attributes1Container"></div>
+		<div class="attributes2Container"></div>
+		
+	</div>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="inflationdata.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+<script>
+$(function(){
+	
+});
+</script>
+
+</body>
+</html>
