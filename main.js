@@ -1,16 +1,16 @@
 $(function(){
 	var results1 = $('#results1');
 	var results2 = $('#results2');
-	var base_url = 'http://image.tmdb.org/t/p/w500';
+	var base_url = 'https://image.tmdb.org/t/p/w500';
 	var selectStatus1 = false;
 	var selectStatus2 = false;
-	
+
 	// Make background the right size
 	var topHeight = $('.topContainer').height();
 	var height = $(window).height();
 	var heightDiff = (height-topHeight);
 	$('.popular').css('height', heightDiff);
-	
+
 	// Put instructions in middle
 	$('.instructions').css('top', (heightDiff/3-150));
 	$('.instructions').css('left', ( ($(window).width()/2)) - $('.instructions').width()/2 );
@@ -41,16 +41,16 @@ $(function(){
 							return i < 5;
 						}
 				});
-				
+
 				// Hover to add active class
-	
+
 				// Click on search result & show its data
 				$('.movieResult').click(function(){
-					
+
 					var id = $(this).children('.attributes1').data('id');
 					var poster = $(this).children('img').attr('src');
 					var title = $(this).children('h2').text();
-					
+
 					$.ajax({
 						url: '//api.themoviedb.org/3/movie/'+id+'?api_key=2f2eeb2adf28348173d2b4b625713bb1&append_to_response=videos',
 						success: function(data){
@@ -78,17 +78,17 @@ $(function(){
 								revenue = "N/A";
 							else
 								revenue = '$' + revenue;
-							
+
 							// Add commas to budget & revenue
 							$.fn.digits = function(){
-							  return this.each(function(){ 
-									$(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ); 
+							  return this.each(function(){
+									$(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") );
 							  })
 							}
-							
+
 							// Release year
 							$('.released1').html('<b>Released:</b> ' + releaseYear);
-							
+
 							// Ratings
 							$('.stars1').html('');
 							for (var i = 0; i < ratingWhole; i++) {
@@ -103,7 +103,7 @@ $(function(){
 								$('.stars1-cover').css('right', ((ratingWhole)*width)-((1-partialStar)*width));
 							}
 							$('.rating1').html(rating);
-							
+
 							// Genre
 							$('.genre1').html('');
 							$.each(genres, function(i, genre){
@@ -113,19 +113,19 @@ $(function(){
 								$('.genre1').html('<b>Genres:</b> '+$('.genre1').text().slice(0, -2)); // Remove comma on last item
 							else if (genres.length == 1)
 								$('.genre1').html('<b>Genre:</b> '+$('.genre1').text().slice(0, -2)); // Remove comma on last item
-						
+
 							// Runtime
 							$('#runtime1').text(runtime+' minutes');
-							
+
 							// Budget
 							$('#budget1').text(budget).digits();
-							
+
 							// Profits
 							$('#revenue1').text(revenue).digits();
-							
+
 							// Show elements
 							$('.hidden, .hidden1').fadeIn('slow');
-							
+
 							// Show call to action
 							$('.cta2').fadeIn('slow');
 							$('.cta2Title').text(title);
@@ -137,7 +137,7 @@ if (selectStatus1 && selectStatus2) {
 	// If inflation button is on, turn it off
 	if ($('.inflation_checkbox').prop('checked') == true)
 		$('.inflation_label').trigger('click');
-	
+
 	// Hide CTA 1
 	$('.cta1, cta1Title, .cta2, .cta2Title').hide();
 	// Show graphs
@@ -146,14 +146,14 @@ if (selectStatus1 && selectStatus2) {
 	var botHeight = $('.comparedata').height();
 	var heightAdd = botHeight + 12;
 	$('.popular').css('height', heightAdd);
-	
+
 	var runtime1 = $('#attributes1').data('runtime');
 	var runtime2 = $('#attributes2').data('runtime');
 	var budget1 = $('#attributes1').data('budget');
 	var budget2 = $('#attributes2').data('budget');
 	var revenue1 = $('#attributes1').data('revenue');
 	var revenue2 = $('#attributes2').data('revenue');
-	
+
 	// Make the higher of the two runtimes at 80% and the other relative to it
 	if (runtime1 > runtime2) {
 		var longerRuntime = '80%';
@@ -169,56 +169,56 @@ if (selectStatus1 && selectStatus2) {
 		$('.graph-runtime1').css('width', '50%');
 		$('.graph-runtime2').css('width', '50%');
 	}
-	
-	
+
+
 	// if budget1 > all
 	if (budget1 > revenue1 && budget1 > revenue2 && budget1 > budget2) {
 		var longerBudget = '100%';
 		var shorterBudget = (1*(budget2/budget1))*100+'%';
 		$('.graph-budget1').css('width', longerBudget);
 		$('.graph-budget2').css('width', shorterBudget);
-		
+
 		// calc revenue
 		var rev1 = (revenue1/budget1)*100+'%';
 		var rev2 = (revenue2/budget1)*100+'%';
 		$('.graph-revenue1').css('width', rev1);
 		$('.graph-revenue2').css('width', rev2);
 	}
-	
+
 	// if budget2 > all
 	else if (budget2 > revenue1 && budget2 > revenue2 && budget2 > budget1) {
 		var longerBudget = '100%';
 		var shorterBudget = (1*(budget1/budget2))*100+'%';
 		$('.graph-budget1').css('width', shorterBudget);
 		$('.graph-budget2').css('width', longerBudget);
-		
+
 		// calc revenue
 		var rev1 = (revenue1/budget2)*100+'%';
 		var rev2 = (revenue2/budget2)*100+'%';
 		$('.graph-revenue1').css('width', rev1);
 		$('.graph-revenue2').css('width', rev2);
 	}
-	
+
 	// if revenue1 > all
 	else if (revenue1 > budget1 && revenue1 > budget2 && revenue1 > revenue2) {
 		var longerRevenue = '100%';
 		var shorterRevenue = (1*(revenue2/revenue1))*100+'%';
 		$('.graph-revenue1').css('width', longerRevenue);
 		$('.graph-revenue2').css('width', shorterRevenue);
-		
+
 		// calc budget
 		var budget1 = (budget1/revenue1)*100+'%';
 		var budget2 = (budget2/revenue1)*100+'%';
 		$('.graph-budget1').css('width', budget1);
 		$('.graph-budget2').css('width', budget2);
-		
+
 	// if revenue2 > all
 	} else if (revenue2 > budget1 && revenue2 > budget2 && revenue2 > revenue1) {
 		var longerRevenue = '100%';
 		var shorterRevenue = (1*(revenue1/revenue2))*100+'%';
 		$('.graph-revenue1').css('width', shorterRevenue);
 		$('.graph-revenue2').css('width', longerRevenue);
-		
+
 		// calc budget
 		var budget1 = (budget1/revenue2)*100+'%';
 		var budget2 = (budget2/revenue2)*100+'%';
@@ -243,34 +243,34 @@ if ($('.comparedata').css('display') == 'none') {
 } else {
 	$('.popular').css('height', heightAdd);
 }
-							
+
 						} // End success AJAX call for specific movie selected
 					});
-					
+
 					$('.movieResult').hide();
 					$('#poster1').attr('src', poster);
 					$('#title1').text(title);
 					$('#search1').val(title);
 				});
-				
+
 				$(':not(.movieResult)').click(function() {
 					$('.movieResult').hide();
 				});
-				
+
 				$('#search1').click(function(){
 					$(this).val('');
 				});
-				
+
 			} // End success AJAX call for search
-			
+
 		}); // End AJAX
-		
+
 	}); // End keyup search bar 1
 	// End search 1
-	
-	
-	
-	
+
+
+
+
 
 
 
@@ -298,14 +298,14 @@ if ($('.comparedata').css('display') == 'none') {
 							return i < 5;
 						}
 				});
-	
+
 				// Click on search result & show its data
 				$('.movieResult2').click(function(){
-					
+
 					var id = $(this).children('.attributes2').data('id');
 					var poster = $(this).children('img').attr('src');
 					var title = $(this).children('h2').text();
-					
+
 					$.ajax({
 						url: '//api.themoviedb.org/3/movie/'+id+'?api_key=2f2eeb2adf28348173d2b4b625713bb1&append_to_response=videos',
 						success: function(data){
@@ -333,17 +333,17 @@ if ($('.comparedata').css('display') == 'none') {
 								revenue = "N/A";
 							else
 								revenue = '$' + revenue;
-								
+
 							// Add commas to budget & revenue
 							$.fn.digits = function(){
-							  return this.each(function(){ 
-									$(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ); 
+							  return this.each(function(){
+									$(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") );
 							  })
 							}
-							
+
 							// Release year
 							$('.released2').html('<b>Released:</b> ' + releaseYear);
-							
+
 							// Ratings
 							$('.stars2').html('');
 							for (var i = 0; i < ratingWhole; i++) {
@@ -358,7 +358,7 @@ if ($('.comparedata').css('display') == 'none') {
 								$('.stars2-cover').css('left', ((ratingWhole)*width)-((1-partialStar)*width));
 							}
 							$('.rating2').html(rating);
-							
+
 							// Genre
 							$('.genre2').html('');
 							$.each(genres, function(i, genre){
@@ -368,19 +368,19 @@ if ($('.comparedata').css('display') == 'none') {
 								$('.genre2').html('<b>Genres:</b> '+$('.genre2').text().slice(0, -2)); // Remove comma on last item
 							else if (genres.length == 1)
 								$('.genre2').html('<b>Genre:</b> '+$('.genre2').text().slice(0, -2)); // Remove comma on last item
-						
+
 							// Runtime
 							$('#runtime2').text(runtime+' minutes');
-							
+
 							// Budget
 							$('#budget2').text(budget).digits();
-							
+
 							// Profits
 							$('#revenue2').text(revenue).digits();
-							
+
 							// Show elements
 							$('.hidden, .hidden2').fadeIn('slow');
-							
+
 							// Show call to action
 							$('.cta1').fadeIn('slow');
 							$('.cta1Title').text(title);
@@ -392,7 +392,7 @@ if (selectStatus1 && selectStatus2) {
 	// If inflation button is on, turn it off
 	if ($('.inflation_checkbox').prop('checked') == true)
 		$('.inflation_label').trigger('click');
-	
+
 	// Hide CTA 2
 	$('.cta1, cta1Title, .cta2, .cta2Title').hide();
 	// Show graphs
@@ -408,7 +408,7 @@ if (selectStatus1 && selectStatus2) {
 	var budget2 = $('#attributes2').data('budget');
 	var revenue1 = $('#attributes1').data('revenue');
 	var revenue2 = $('#attributes2').data('revenue');
-	
+
 	// Make the higher of the two runtimes at 80% and the other relative to it
 	if (runtime1 > runtime2) {
 		var longerRuntime = '80%';
@@ -424,56 +424,56 @@ if (selectStatus1 && selectStatus2) {
 		$('.graph-runtime1').css('width', '50%');
 		$('.graph-runtime2').css('width', '50%');
 	}
-	
-	
+
+
 	// if budget1 > all
 	if (budget1 > revenue1 && budget1 > revenue2 && budget1 > budget2) {
 		var longerBudget = '100%';
 		var shorterBudget = (1*(budget2/budget1))*100+'%';
 		$('.graph-budget1').css('width', longerBudget);
 		$('.graph-budget2').css('width', shorterBudget);
-		
+
 		// calc revenue
 		var rev1 = (revenue1/budget1)*100+'%';
 		var rev2 = (revenue2/budget1)*100+'%';
 		$('.graph-revenue1').css('width', rev1);
 		$('.graph-revenue2').css('width', rev2);
 	}
-	
+
 	// if budget2 > all
 	else if (budget2 > revenue1 && budget2 > revenue2 && budget2 > budget1) {
 		var longerBudget = '100%';
 		var shorterBudget = (1*(budget1/budget2))*100+'%';
 		$('.graph-budget1').css('width', shorterBudget);
 		$('.graph-budget2').css('width', longerBudget);
-		
+
 		// calc revenue
 		var rev1 = (revenue1/budget2)*100+'%';
 		var rev2 = (revenue2/budget2)*100+'%';
 		$('.graph-revenue1').css('width', rev1);
 		$('.graph-revenue2').css('width', rev2);
 	}
-	
+
 	// if revenue1 > all
 	else if (revenue1 > budget1 && revenue1 > budget2 && revenue1 > revenue2) {
 		var longerRevenue = '100%';
 		var shorterRevenue = (1*(revenue2/revenue1))*100+'%';
 		$('.graph-revenue1').css('width', longerRevenue);
 		$('.graph-revenue2').css('width', shorterRevenue);
-		
+
 		// calc budget
 		var budget1 = (budget1/revenue1)*100+'%';
 		var budget2 = (budget2/revenue1)*100+'%';
 		$('.graph-budget1').css('width', budget1);
 		$('.graph-budget2').css('width', budget2);
-		
+
 	// if revenue2 > all
 	} else if (revenue2 > budget1 && revenue2 > budget2 && revenue2 > revenue1) {
 		var longerRevenue = '100%';
 		var shorterRevenue = (1*(revenue1/revenue2))*100+'%';
 		$('.graph-revenue1').css('width', shorterRevenue);
 		$('.graph-revenue2').css('width', longerRevenue);
-		
+
 		// calc budget
 		var budget1 = (budget1/revenue2)*100+'%';
 		var budget2 = (budget2/revenue2)*100+'%';
@@ -500,28 +500,28 @@ if ($('.comparedata').css('display') == 'none') {
 } else {
 	$('.popular').css('height', heightAdd);
 }
-							
+
 						} // End success AJAX call for specific movie selected
 					});
-					
+
 					$('.movieResult').hide();
 					$('#poster2').attr('src', poster);
 					$('#title2').text(title);
 					$('#search2').val(title);
 				});
-				
+
 				$(':not(.movieResult2)').click(function() {
 					$('.movieResult2').hide();
 				});
-				
+
 				$('#search2').click(function(){
 					$(this).val('');
 				});
-				
+
 			} // End success AJAX call for search
-			
+
 		}); // End AJAX
-		
+
 	}); // End keyup search bar 2
 	// End search 2
 
@@ -542,7 +542,7 @@ $('.overlay, .x').click(function(e) {
   $('.videoContainer, .overlay, .x').hide();
   $('.videoContainer iframe').attr('src', '');
 });
-	
+
 }) // Page loaded
 
 
@@ -552,7 +552,7 @@ $('.overlay, .x').click(function(e) {
 // ==============================================================
 // ===================== Get popular movies =====================
 // ==============================================================
-var base_url = 'http://image.tmdb.org/t/p/w500';
+var base_url = 'https://image.tmdb.org/t/p/w500';
 var url = '//api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=2f2eeb2adf28348173d2b4b625713bb1'
 
 $.ajax({
@@ -585,7 +585,7 @@ $(window).resize(function(){
 	} else {
 		$('.popular').css('height', heightAdd);
 	}
-	
+
 	// Put instructions in middle
 	$('.instructions').css('top', (heightDiff/3-150));
 	$('.instructions').css('left', ( ($(window).width()/2)) - $('.instructions').width()/2 );
